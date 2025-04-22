@@ -1,0 +1,1 @@
+# A simple React Native Mobile Application for tracking expenses.
