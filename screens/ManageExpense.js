@@ -1,79 +1,68 @@
-import { useLayoutEffect, useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { useContext, useLayoutEffect } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 
-import IconButton from "../components/UI/IconButton";
-import { GlobalStyles } from "../constants/styles";
-import Button from "../components/UI/Button";
-import { ExpensesContext } from "../store/expenses-context";
+import ExpenseForm from '../components/ManageExpense.js/ExpenseForm';
+import Button from '../components/UI/Button';
+import IconButton from '../components/UI/IconButton';
+import { GlobalStyles } from '../constants/styles';
+import { ExpensesContext } from '../store/expenses-context';
 
-const ManageExpense = ({ route, navigation }) => {
-  const expensesCtx = useContext(ExpensesContext); // Assuming you have a context to fetch expenses
+function ManageExpense({ route, navigation }) {
+  const expensesCtx = useContext(ExpensesContext);
 
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? "Edit Expense" : "Add Expense",
-      /* headerRight: () => (
-        <IconButton
-          name="trash"
-          size={24}
-          color="white"
-          onPress={() => {
-            // Handle delete action
-            console.log("Delete expense");
-          }}
-        />
-      ),*/
+      title: isEditing ? 'Edit Expense' : 'Add Expense',
     });
   }, [navigation, isEditing]);
 
-  const deleteExpenseHandler = () => {
-    // Handle delete action
+  function deleteExpenseHandler() {
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
-  };
+  }
 
-  const cancelHandler = () => {
+  function cancelHandler() {
     navigation.goBack();
-  };
+  }
 
-  const confirmHandler = () => {
-    // Handle confirm action
+  function confirmHandler() {
     if (isEditing) {
-      // Update existing expense
-      expensesCtx.updateExpense(editedExpenseId, {
-        // Pass the updated expense data
+      expensesCtx.updateExpense(
         editedExpenseId,
-        description: "Test!!!",
-        amount: 29.99,
-        // date: new Date("2025-04-15"),
-      });
+        {
+          description: 'Test!!!!',
+          amount: 29.99,
+          date: new Date('2022-05-20'),
+        }
+      );
     } else {
       expensesCtx.addExpense({
-        description: "Test",
+        description: 'Test',
         amount: 19.99,
-        date: new Date("2025-04-15"),
+        date: new Date('2022-05-19'),
       });
     }
     navigation.goBack();
-  };
+  }
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.buttons}>
         <Button style={styles.button} mode="flat" onPress={cancelHandler}>
-          <Text>Cancel</Text>
+          Cancel
         </Button>
         <Button style={styles.button} onPress={confirmHandler}>
-          <Text>{isEditing ? "Update" : "Add"}</Text>
+          {isEditing ? 'Update' : 'Add'}
         </Button>
       </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
-            name="trash"
+            icon="trash"
             color={GlobalStyles.colors.error500}
             size={36}
             onPress={deleteExpenseHandler}
@@ -82,7 +71,9 @@ const ManageExpense = ({ route, navigation }) => {
       )}
     </View>
   );
-};
+}
+
+export default ManageExpense;
 
 const styles = StyleSheet.create({
   container: {
@@ -91,9 +82,9 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.colors.primary800,
   },
   buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
     minWidth: 120,
@@ -104,8 +95,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderTopWidth: 2,
     borderTopColor: GlobalStyles.colors.primary200,
-    alignItems: "center",
+    alignItems: 'center',
   },
 });
-
-export default ManageExpense;
