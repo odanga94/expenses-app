@@ -8,6 +8,7 @@ const Input = ({
   textInputConfig,
   placeholder,
   style,
+  invalid
 }) => {
   const inputStyles = [styles.input];
 
@@ -15,9 +16,14 @@ const Input = ({
     inputStyles.push(styles.inputMultiline);
   }
 
+  // console.log(label, invalid)
+  if (invalid) {
+    inputStyles.push(styles.invalidInput);
+  }
+
   return (
     <View style={[styles.inputContainer, style]}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, invalid && styles.invalidLabel]}>{label}</Text>
       <TextInput
         style={inputStyles}
         value={value}
@@ -51,6 +57,13 @@ const styles = StyleSheet.create({
   inputMultiline: {
     minHeight: 100,
     textAlignVertical: "top", // For Android
+  },
+  invalidLabel: {
+    color: GlobalStyles.colors.error500,
+  },
+  invalidInput: {
+    backgroundColor: GlobalStyles.colors.error50,
+    borderColor: GlobalStyles.colors.error500,
   },
 });
 
