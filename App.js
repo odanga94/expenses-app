@@ -23,20 +23,16 @@ const ExpensesOverview = () => {
         headerTintColor: "white",
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
-        headerRight: ({ tintColor }) => {
-          return (
-            <IconButton
-              name="add-sharp"
-              size={24}
-              color={tintColor}
-              style={{ marginRight: 16 }}
-              onPress={() => {
-                // Navigate to the ManageExpense screen
-                navigation.navigate("ManageExpense");
-              }}
-            />
-          );
-        },
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            icon="add"
+            size={24}
+            color={tintColor}
+            onPress={() => {
+              navigation.navigate('ManageExpense');
+            }}
+          />
+        ),
       })}
     >
       <BottomTabs.Screen
